@@ -14,22 +14,18 @@ The trained model demonstrates promising performance in extracting garments from
 
 ## Usage
 
-If on a server, you may need to install `conda`, or alternatively `miniconda`:
-```bash
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash ~/Miniconda3-latest-Linux-x86_64.sh
-```
-
-Create a new Conda environment:
-```bash
-conda create -n kontext python=3.11
-conda activate kontext
-```
-Then, clone this repository:
+Clone this repository:
 ```bash
 git clone https://github.com/rizavelioglu/kontext-vtoff.git
 cd kontext-vtoff
-pip install -r requirements.txt
+```
+
+Install `uv` & dependencies:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv --python 3.11
+source .venv/bin/activate
+uv sync
 ```
 
 Login to your HuggingFace account via cli, which is necessary to download FLUX model:
@@ -41,13 +37,12 @@ Start training with a single-GPU (`#gpu-poor`):
 ```bash
 python train.py \
   --pretrained_model_name_or_path=black-forest-labs/FLUX.1-Kontext-dev  \
-  --vae_encode_mode="mode" \
-  --output_dir="./flux-kontext-lora/" \
   --dataset_name="./data/training/" \
   --image_column="end" \
   --cond_image_column="start" \
   --caption_column="instruction" \
-  --repeats=1 \
+  --output_dir="./flux-kontext-lora/" \
+  --vae_encode_mode="mode" \
   --max_sequence_length=512 \
   --num_validation_images=4 \
   --validation_epochs=50 \

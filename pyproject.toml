@@ -1,0 +1,52 @@
+[project]
+name = "kontext-vtoff"
+version = "0.1.0"
+description = "A LoRA training pipeline for FLUX.1-Kontext model specialized in Virtual Try-Off (VTOFF) task."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Riza Velioglu", email = "rvelioglu+gh@techfak.uni-bielefeld.de"}]
+license = {file = "LICENSE"}
+
+dependencies = [
+    "diffusers @ git+https://github.com/huggingface/diffusers.git",
+    "transformers",
+    "accelerate",
+    "sentencepiece",
+    "protobuf",
+    "peft",
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "bitsandbytes",
+    "datasets",
+    "loguru",
+    "pre-commit",
+]
+
+[project.urls]
+Homepage = "https://github.com/rizavelioglu/kontext-vtoff"
+Repository = "https://github.com/rizavelioglu/kontext-vtoff"
+Issues = "https://github.com/rizavelioglu/kontext-vtoff/issues"
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 120  # Allow lines to be as long as 120.
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191", # indentation contains tabs
+]
