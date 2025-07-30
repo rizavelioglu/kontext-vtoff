@@ -1,5 +1,19 @@
 # kontext-vtoff
 
+A LoRA training pipeline for FLUX.1-Kontext model specialized in [Virtual try-off (VTOFF) task][1]. This project enables training custom LoRA adapters to extract garments from clothing images, transforming them into clean product photography with white backgrounds.
+
+![Results](results.png)
+
+## Results
+The trained model demonstrates promising performance in extracting garments from worn clothing and generating clean product photography. While the current results show realistic and high-quality outputs, there are opportunities for improvement through:
+
+- **Larger dataset**: The current model is trained on 50 garment/model image pairs
+- **Extended training**: Training for more than the current 1,000 steps
+- **Dataset diversity**: Including more varied garment types, poses, and lighting conditions
+- **LoRA configuration tuning**: Experimenting with different rank values, LoRA alpha, dropout rates, and other hyperparameters.
+
+## Usage
+
 If on a server, you may need to install `conda`, or alternatively `miniconda`:
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -23,7 +37,7 @@ Login to your HuggingFace account via cli, which is necessary to download FLUX m
 hf auth login
 ```
 
-Start training with a single-GPU, i.e. H100:
+Start training with a single-GPU (`#gpu-poor`):
 ```bash
 python train.py \
   --pretrained_model_name_or_path=black-forest-labs/FLUX.1-Kontext-dev  \
@@ -64,22 +78,17 @@ python train.py \
   --mixed_precision="bf16"
 ```
 
+> Training on a single H100 takes ~40 minutes with the above arguments.
+
 Run inference with:
 ```bash
 python inference.py --input_folder "./data/testing/" --output_folder "./output/" --lora_folder "./flux-kontext-lora"
 ```
 
-## Helpful Links
-- [inference pipeline (single-image)][2]
-- [inference pipeline (multi-image)][3]
-- [HF-space (multi-image)][4]
-- [I2I training script][5]
-- [inference pipeline (inpaint)][6]
+> Inference on a single H100 takes ~15 seconds per image.
+
+## Acknowledgments
+We thank [fal.ai](https://fal.ai) for their supervision and for providing the computational hardware that made this project possible.
 
 <!-- References -->
-[1]: https://arxiv.org/abs/2506.15742
-[2]: https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/flux/pipeline_flux_kontext.py
-[3]: https://github.com/huggingface/diffusers/blob/main/examples/community/pipeline_flux_kontext_multiple_images.py
-[4]: https://huggingface.co/spaces/kontext-community/FLUX.1-Kontext-multi-image
-[5]: https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_flux_kontext.py
-[6]: https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/flux/pipeline_flux_kontext_inpaint.py
+[1]: https://github.com/rizavelioglu/awesome-virtual-try-off
