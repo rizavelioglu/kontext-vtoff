@@ -21,6 +21,7 @@ dependencies = [
     "datasets",
     "loguru",
     "pre-commit",
+    "tensorboard",
 ]
 
 [project.urls]
